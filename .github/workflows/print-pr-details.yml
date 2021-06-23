@@ -10,8 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: print username
-        run: git log --format='%an'
+      # - name: print username
+      #   run: git log --format='%an'
       - name: print push details
         run: |
           git shortlog -s -n 
