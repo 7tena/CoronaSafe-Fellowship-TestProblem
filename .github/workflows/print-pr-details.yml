@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: print username
         run: git log --format='%an'
-      - name: print pull request details
-        run: git show <COMMIT>
+      - name: print push details
+        run: git show COMMIT
         # git shortlog -s --author="Atheena Renjith"
