@@ -18,14 +18,15 @@ void add(int argc, char *argv[])
     {
         std ::fstream todo("todo.txt");
         if (todo.peek() == std::ifstream::traits_type::eof())
-        { 
+        {
             todo << argv[2];
             todo.close();
         }
         else
         {
             std ::fstream todo("todo.txt", std ::ios::out | std ::ios::in | std ::ios::app);
-            todo << std ::endl << argv[2];
+            todo << std ::endl
+                 << argv[2];
             todo.close();
             std::cout << "2" << std::endl;
         }
@@ -101,6 +102,7 @@ void del(int argc, char *argv[])
             }
         }
         std::cout << "Deleted todo #" << argv[2];
+        todo.close();
     }
 }
 
@@ -110,7 +112,9 @@ void done(int argc, char *argv[])
     std::string line;
     std::ifstream todo("todo.txt", std ::ios::in);
     while (std::getline(todo, line))
+    {
         ++number_of_lines;
+    }
     todo.close();
     if (argc == 2)
     {
@@ -120,16 +124,17 @@ void done(int argc, char *argv[])
     {
         std::cout << "Error: todo #" << argv[2] << " does not exist.";
     }
-    // else
-    // {
-    //     std ::string lines;
-    //     std::ifstream todo("todo.txt", std ::ios::in);
-    //     std::fstream done("done.txt", std::ios::out);
-    //     while (getline(todo, lines))
-    //     {
-    //         todovector.push_back(lines);
-    //     }
-    // }
+    else
+    {
+        std::ifstream todo("todo.txt", std ::ios::in);
+        while (getline(todo, line))
+        {
+            todovector.push_back(line);
+        }
+        std ::fstream done("done.txt", std ::ios::out | std ::ios::in | std ::ios::app);
+        done << todovector[ atoi(argv[2]) + 1];
+        del(argc, argv);
+    }
 }
 
 int main(int argc, char *argv[])

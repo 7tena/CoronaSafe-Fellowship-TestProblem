@@ -1,0 +1,16 @@
+name: Print the list of commits and users in a pull request
+
+on: 
+  push
+    
+jobs:
+  print-pr-details:
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: print username
+        run: git log --format='%an'
+      - name: print pull request details
+        run: git shortlog -ns
