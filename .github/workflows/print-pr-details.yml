@@ -13,5 +13,6 @@ jobs:
       - name: print username
         run: git log --format='%an'
       - name: print push details
-        run: git show COMMIT
+        run: |
+          git shortlog -s -n 
         # git shortlog -s --author="Atheena Renjith"
