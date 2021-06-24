@@ -1,7 +1,7 @@
 name: Print the list of commits and users in a pull request
 
 on: 
-  push
+  pull_request
     
 jobs:
   print-pr-details:
@@ -10,9 +10,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      # - name: print username
-      #   run: git log --format='%an'
-      - name: print push details
-        run: |
-          git shortlog -s -n 
-        # git shortlog -s --author="Atheena Renjith"
+      - name: print username
+        run: git log --format='%an'
+        uses: actions/github-script@v4
+      - name: print pull request details
+        with:
+          script: |
+            const creator = context.payload.sender.login
+            const opts = github.issues.listForRepo.endpoint.merge({
+              ...context.issue,
+              creator,
+              state: 'all'
+            })
+            const issues = await github.paginate(opts)
+
+            for (const issue of issues) {
+              if (issue.number === context.issue.number) {
+                continue
+              }
+            }
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Commit details commented!'
+            })
+      
+        
