@@ -4,7 +4,7 @@ on:
   push
     
 jobs:
-  print-pr-details:
+  print-push-details:
 
     runs-on: 'ubuntu-latest'
 
