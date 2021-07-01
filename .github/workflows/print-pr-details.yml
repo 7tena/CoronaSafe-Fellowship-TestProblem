@@ -13,27 +13,4 @@ jobs:
       - name: print username
         run: git log --format='%an'
       - name: print pull request details
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const creator = context.payload.sender.login
-            const opts = github.issues.listForRepo.endpoint.merge({
-              ...context.issue,
-              creator,
-              state: 'all'
-            })
-            const issues = await github.paginate(opts)
-
-            for (const issue of issues) {
-              if (issue.number === context.issue.number) {
-                continue
-              }
-            }
-            await github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Commit details commented!'
-            })
-      
-        
+        run: git log --format= "pull-request-description"
